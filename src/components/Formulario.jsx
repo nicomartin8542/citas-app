@@ -1,26 +1,27 @@
 import { useState, useEffect } from "react";
+import useForm from "../hooks/useForm";
+import formularioValidate from "../validation/formularioValidate";
+import AlertForm from "./alerts/AlertForm";
 
 const Formulario = () => {
-  const [values, setValues] = useState({
-    nombre: "",
-    propietario: "",
-    email: "",
-    alta: "",
-    sintomas: "",
-  });
+  const [values, error, handleInputChange, handleFormSubmit] = useForm(
+    {
+      nombre: "",
+      propietario: "",
+      email: "",
+      alta: "",
+      sintomas: "",
+    },
+    formularioValidate,
+    saveData
+  );
 
   const { nombre, propietario, email, alta, sintomas } = values;
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-  };
-
-  const handleChange = (e) => {
-    setValues({
-      ...values,
-      [e.target.name]: e.target.value,
-    });
-  };
+  function saveData() {
+    console.log(error);
+    console.log("guardo datos");
+  }
 
   return (
     <div className="md:w-1/2 lg:w-2/5">
@@ -33,7 +34,7 @@ const Formulario = () => {
       </p>
 
       <form
-        onSubmit={handleSubmit}
+        onSubmit={handleFormSubmit}
         className="bg-white shadow-md rounded-lg py-10 px-5 mb-5"
       >
         <div className="mb-5">
@@ -47,8 +48,9 @@ const Formulario = () => {
             placeholder="Nombre de la mascota"
             className="border-2 w-full p-2 mt-2 placeholder-gray-400 rounde-md"
             value={nombre}
-            onChange={handleChange}
+            onChange={handleInputChange}
           />
+          {error.nombre && <AlertForm msg={error.nombre} />}
         </div>
 
         <div className="mb-5">
@@ -62,8 +64,9 @@ const Formulario = () => {
             className="border-2 w-full p-2 mt-2 placeholder-gray-400 rounde-md"
             name="propietario"
             value={propietario}
-            onChange={handleChange}
+            onChange={handleInputChange}
           />
+          {error.propietario && <AlertForm msg={error.propietario} />}
         </div>
 
         <div className="mb-5">
@@ -77,8 +80,9 @@ const Formulario = () => {
             className="border-2 w-full p-2 mt-2 placeholder-gray-400 rounde-md"
             name="email"
             value={email}
-            onChange={handleChange}
+            onChange={handleInputChange}
           />
+          {error.email && <AlertForm msg={error.email} />}
         </div>
 
         <div className="mb-5">
@@ -91,8 +95,9 @@ const Formulario = () => {
             className="border-2 w-full p-2 mt-2 placeholder-gray-400 rounde-md"
             name="alta"
             value={alta}
-            onChange={handleChange}
+            onChange={handleInputChange}
           />
+          {error.alta && <AlertForm msg={error.alta} />}
         </div>
 
         <div className="mb-5">
@@ -105,9 +110,11 @@ const Formulario = () => {
             placeholder="Describe los sintomas"
             name="sintomas"
             value={sintomas}
-            onChange={handleChange}
+            onChange={handleInputChange}
           />
+          {error.sintomas && <AlertForm msg={error.sintomas} />}
         </div>
+
         <input
           type="submit"
           className="bg-indigo-600 w-full text-white p-3 rounded-md hover:bg-indigo-700 cursor-pointer transition-all "
