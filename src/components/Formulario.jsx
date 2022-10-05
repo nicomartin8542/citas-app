@@ -3,7 +3,7 @@ import useForm from "../hooks/useForm";
 import formularioValidate from "../validation/formularioValidate";
 import AlertForm from "./alerts/AlertForm";
 
-const Formulario = () => {
+const Formulario = ({ valuesStorade, setSave }) => {
   const [values, error, handleInputChange, handleFormSubmit] = useForm(
     {
       nombre: "",
@@ -19,8 +19,8 @@ const Formulario = () => {
   const { nombre, propietario, email, alta, sintomas } = values;
 
   function saveData() {
-    console.log(error);
-    console.log("guardo datos");
+    localStorage.setItem("values", JSON.stringify([...valuesStorade, values]));
+    setSave(true);
   }
 
   return (

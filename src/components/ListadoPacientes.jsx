@@ -1,6 +1,7 @@
+import { useState, useEffect } from "react";
 import Pacientes from "./Pacientes";
 
-const ListadoPacientes = () => {
+const ListadoPacientes = ({ valuesStorade }) => {
   return (
     <div className="md:w-1/2 lg:w-3/5 h-screen ">
       <h2 className="font-black text-3xl text-center">
@@ -12,12 +13,9 @@ const ListadoPacientes = () => {
       </p>
 
       <div className="h-screen md:overflow-y-scroll">
-        <Pacientes />
-        <Pacientes />
-        <Pacientes />
-        <Pacientes />
-        <Pacientes />
-        <Pacientes />
+        {valuesStorade.map((value, i) => (
+          <Pacientes key={i} {...value} />
+        ))}
       </div>
     </div>
   );
