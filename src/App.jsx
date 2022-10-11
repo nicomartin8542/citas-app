@@ -5,6 +5,7 @@ import ListadoPacientes from "./components/ListadoPacientes";
 
 function App() {
   const [valuesStorade, setValuesStorade] = useState([]);
+  const [paciente, setPaciente] = useState({});
   const [save, setSave] = useState(false);
 
   useEffect(() => {
@@ -17,8 +18,15 @@ function App() {
     <div className="container mx-auto mt-20">
       <Header />
       <div className="mt-12 md:flex ">
-        <Formulario valuesStorade={valuesStorade} setSave={setSave} />
-        <ListadoPacientes valuesStorade={valuesStorade} />
+        <Formulario
+          valuesStorade={valuesStorade}
+          setSave={setSave}
+          paciente={paciente}
+        />
+        <ListadoPacientes
+          valuesStorade={valuesStorade}
+          setPaciente={setPaciente}
+        />
       </div>
     </div>
   );
