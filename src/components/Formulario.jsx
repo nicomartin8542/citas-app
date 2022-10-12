@@ -5,7 +5,7 @@ import formularioValidate from "../validation/formularioValidate";
 import AlertForm from "./alerts/AlertForm";
 import ButtonForm from "./buttons/ButtonForm";
 
-const Formulario = ({ valuesStorade, setSave, paciente }) => {
+const Formulario = ({ valuesStorade, setSave, paciente, setPaciente }) => {
   const [values, setValues, error, handleInputChange, handleFormSubmit] =
     useForm(
       {
@@ -23,14 +23,27 @@ const Formulario = ({ valuesStorade, setSave, paciente }) => {
   const { nombre, propietario, email, alta, sintomas } = values;
 
   useEffect(() => {
-    if (Object.keys(paciente).length > 0) {
-      setValues(paciente);
-    }
+    if (paciente.id) setValues(paciente);
   }, [paciente]);
 
   function saveData() {
-    setValues((values.id = uuidv4()));
-    localStorage.setItem("values", JSON.stringify([...valuesStorade, values]));
+    if (paciente.id) {
+      //Actualizando
+      let pacientesArr = valuesStorade.map((p) =>
+        p.id === paciente.id ? values : p
+      );
+      localStorage.setItem("values", JSON.stringify(pacientesArr));
+      setPaciente({});
+    } else {
+      //Aagrego paciente
+      const pacienteAdd = values;
+      pacienteAdd.id = uuidv4();
+      localStorage.setItem(
+        "values",
+        JSON.stringify([...valuesStorade, pacienteAdd])
+      );
+    }
+
     setSave(true);
   }
 
@@ -124,7 +137,7 @@ const Formulario = ({ valuesStorade, setSave, paciente }) => {
         {error.msg && <AlertForm msg={error.msg} />}
 
         <ButtonForm
-          color={paciente.id ? "lime" : "indigo"}
+          color="indigo"
           text={paciente.id ? "Modificar Paciente" : "Agregar paciente"}
         />
       </form>

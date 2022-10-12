@@ -14,6 +14,12 @@ function App() {
     if (storade) setValuesStorade(storade);
   }, [save]);
 
+  const deletePaciente = (id) => {
+    const pacientesFilter = valuesStorade.filter((value) => value.id !== id);
+    localStorage.setItem("values", JSON.stringify(pacientesFilter));
+    setSave(true);
+  };
+
   return (
     <div className="container mx-auto mt-20">
       <Header />
@@ -22,10 +28,12 @@ function App() {
           valuesStorade={valuesStorade}
           setSave={setSave}
           paciente={paciente}
+          setPaciente={setPaciente}
         />
         <ListadoPacientes
           valuesStorade={valuesStorade}
           setPaciente={setPaciente}
+          deletePaciente={deletePaciente}
         />
       </div>
     </div>

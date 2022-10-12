@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Pacientes from "./Pacientes";
 
-const ListadoPacientes = ({ valuesStorade, setPaciente }) => {
+const ListadoPacientes = ({ valuesStorade, setPaciente, deletePaciente }) => {
   return (
     <div className="md:w-1/2 lg:w-3/5 h-screen ">
       {valuesStorade.length === 0 ? (
@@ -28,6 +28,7 @@ const ListadoPacientes = ({ valuesStorade, setPaciente }) => {
                 key={i}
                 paciente={paciente}
                 setPaciente={setPaciente}
+                deletePaciente={deletePaciente}
               />
             ))}
           </div>
